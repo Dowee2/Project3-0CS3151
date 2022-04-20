@@ -1,6 +1,5 @@
 package edu.westga.CS3151.AnimalGuessing.model;
 
-
 /**
  * BinaryNode - one node in a binary tree
  *
@@ -12,12 +11,14 @@ public class BinaryNode<T> {
 	private T value;
 	private BinaryNode<T> leftChild;
 	private BinaryNode<T> rightChild;
+	private BinaryNode<T> parent;
 
 	/**
 	 * Instantiates a new binary node
 	 * 
 	 * @pre none
-	 * @post getValue() == null AND !hasLeftChild() AND !hasRightChild()
+	 * @post getValue() == null AND !hasLeftChild() AND !hasRightChild() AND
+	 *       !hasParent()
 	 */
 	public BinaryNode() {
 		this(null);
@@ -27,13 +28,15 @@ public class BinaryNode<T> {
 	 * Instantiates a new binary node
 	 *
 	 * @pre none
-	 * @post getValue() == value AND !hasLeftChild() AND !hasRightChild()
+	 * @post getValue() == value AND !hasLeftChild() AND !hasRightChild() AND
+	 *       !hasParent()
 	 * @param value the value of the new node
 	 */
 	public BinaryNode(T value) {
 		this.value = value;
 		this.leftChild = null;
 		this.rightChild = null;
+		this.parent = null;
 	}
 
 	/**
@@ -59,6 +62,17 @@ public class BinaryNode<T> {
 	}
 
 	/**
+	 * Returns the parent
+	 * 
+	 * @pre none
+	 * @post none
+	 * @return returns the parent of this node
+	 */
+	public BinaryNode<T> getParent() {
+		return this.parent;
+	}
+
+	/**
 	 * Returns the value
 	 * 
 	 * @pre none
@@ -70,15 +84,6 @@ public class BinaryNode<T> {
 	}
 
 	/**
-	 * Returns if this node is a leaf node
-	 * 
-	 * @return returns if this node is a leaf
-	 */
-	public boolean isLeaf() {
-		return this.hasLeftChild() && this.hasRightChild();
-	}
-
-	/**
 	 * Sets the left child
 	 * 
 	 * @pre none
@@ -87,6 +92,7 @@ public class BinaryNode<T> {
 	 */
 	public void setLeftChild(BinaryNode<T> child) {
 		this.leftChild = child;
+		child.parent = this;
 	}
 
 	/**
@@ -98,6 +104,7 @@ public class BinaryNode<T> {
 	 */
 	public void setRightChild(BinaryNode<T> child) {
 		this.rightChild = child;
+		child.parent = this;
 	}
 
 	/**
@@ -131,6 +138,17 @@ public class BinaryNode<T> {
 	 */
 	public boolean hasRightChild() {
 		return this.rightChild != null;
+	}
+
+	/**
+	 * Checks if this node has a parent
+	 *
+	 * @pre none
+	 * @post none
+	 * @return true if this node has a parent
+	 */
+	public boolean hasParent() {
+		return this.parent != null;
 	}
 }
 

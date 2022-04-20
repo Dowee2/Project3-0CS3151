@@ -229,18 +229,40 @@ public class BinaryTree<E> implements Iterable<E> {
 	 * An iterator that traverses this binary tree in post-order
 	 */
 	protected class PostOrderIterator implements Iterator<E> {
-
+		BinaryNode<E> next;
 		public PostOrderIterator() {
+			this.next = BinaryTree.this.getRoot();
+			if (this.next != null) {
+				while (this.next.hasLeftChild()) {
+					this.next = this.next.getLeftChild();
+				}
+			}
 		}
 		
 		@Override
 		public boolean hasNext() {
-			return false;
+			return this.next != null;
 		}
 
 		@Override
 		public E next() {
-			return null;
+			E returnValue = this.next.getValue();
+			
+			if(!this.next.hasParent()) {
+				this.next = null;
+			} else if(this.next.getParent().getRightChild() == this.next) {
+				this.next = this.next.getParent();
+			} else {
+				if(this.next.getParent().hasRightChild()) {
+					this.next = this.next.getParent().getRightChild();
+					while (this.next.hasLeftChild()) {
+						this.next = this.next.getLeftChild();
+					}
+				} else {
+					this.next = this.next.getParent();
+				}
+			}
+			return returnValue;
 		}
 
 		@Override
