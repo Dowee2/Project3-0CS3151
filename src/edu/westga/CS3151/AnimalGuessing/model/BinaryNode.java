@@ -37,6 +37,7 @@ public class BinaryNode<T> {
 		this.leftChild = null;
 		this.rightChild = null;
 		this.parent = null;
+		
 	}
 
 	/**

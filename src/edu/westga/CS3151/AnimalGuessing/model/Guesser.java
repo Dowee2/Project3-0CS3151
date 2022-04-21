@@ -35,15 +35,20 @@ public class Guesser {
         questionNode.setRightChild(this.currentNode);
         BinaryNode<String> parentNode = this.currentNode.getParent();
 
-        if(parentNode.getLeftChild() == this.currentNode) {
+        switch (answer) {
+            case YES:
             parentNode.setLeftChild(questionNode);
+                break;
             
-        } else {
+            case NO:
             parentNode.setRightChild(questionNode);
+                break;
         }
     }
 
     public String getCurrentValue() {
         return this.currentNode.getValue();
     }
+
+    
 }
