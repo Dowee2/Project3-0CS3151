@@ -1,4 +1,7 @@
-package edu.westga.CS3151.AnimalGuessing.model; 
+package edu.westga.CS3151.AnimalGuessing.model;
+
+import java.util.Iterator;
+import java.util.Random;
 
 public class Guesser {
 
@@ -8,12 +11,28 @@ public class Guesser {
 
     private BinaryTree<String> tree;
     private BinaryNode<String> currentNode;
+    public boolean guessMade;
 
 
     public Guesser() {
-        this.tree = new BinaryTree<String>();
+    	
+        this.tree = new BinaryTree<String>(this.initializeRoot());
         this.currentNode = this.tree.getRoot();
+        
+        if(this.currentNode.isLeafNode()) {
+        	this.guessMade = true;
+        } else {
+        	this.guessMade = false;
+        }
     }
+    
+	private BinaryNode<String> initializeRoot() {
+		String[] startingAnimals = new String[] {"Cow", "Dolphin","Whale","EarthWorm","Kangaroo","Penguin","Rabbit","Cat","Horse"};
+		Random rand = new Random();
+		BinaryNode<String> node = new BinaryNode<String>(startingAnimals[rand.nextInt(startingAnimals.length)]);
+		return node;
+		
+	}
 
     public Boolean questionAnswered(YesOrNo answer) {
         switch (answer) {
@@ -32,20 +51,36 @@ public class Guesser {
     public void guessedWrong(String playerAnimal, String question, YesOrNo answer) {
         BinaryNode<String> questionNode = new BinaryNode<String>(question);
         BinaryNode<String> answerNode = new BinaryNode<String>(playerAnimal);
+        
 
-        questionNode.setLeftChild(answerNode);
-        questionNode.setRightChild(this.currentNode);
-        BinaryNode<String> parentNode = this.currentNode.getParent();
-
-        switch (answer) {
-            case YES:
-            parentNode.setLeftChild(questionNode);
-                break;
-            
-            case NO:
-            parentNode.setRightChild(questionNode);
-                break;
+        if(this.currentNode == this.tree.getRoot()) {
+        	this.tree.setRoot(questionNode);
+        } else {
+        	
+        	if(this.currentNode.getParent().getLeftChild() == this.currentNode) {
+        		this.currentNode.getParent().setLeftChild(questionNode);
+        	} else {
+        		this.currentNode.getParent().setRightChild(questionNode);
+        	}
         }
+        
+        switch (answer) {
+        case YES:
+      	  questionNode.setLeftChild(answerNode);
+      	  questionNode.setRightChild(this.currentNode);
+            break;
+        
+        case NO:
+      	  questionNode.setLeftChild(this.currentNode);
+      	  questionNode.setRightChild(answerNode);
+            break;
+    	}
+        
+        Iterator<String> iterate = this.tree.iterator();
+        while(iterate.hasNext()) {
+        	System.out.print(iterate.next() +",");
+        }
+        System.out.println();
         this.currentNode = this.tree.getRoot();
     }
 
