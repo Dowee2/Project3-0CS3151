@@ -6,8 +6,8 @@ public class Guesser {
         YES, NO
     }
 
-    public BinaryTree<String> tree;
-    public BinaryNode<String> currentNode;
+    private BinaryTree<String> tree;
+    private BinaryNode<String> currentNode;
 
 
     public Guesser() {
@@ -15,7 +15,7 @@ public class Guesser {
         this.currentNode = this.tree.getRoot();
     }
 
-    public void questionAnswered(YesOrNo answer) {
+    public Boolean questionAnswered(YesOrNo answer) {
         switch (answer) {
             case YES:
             this.currentNode = this.currentNode.getLeftChild();
@@ -25,6 +25,8 @@ public class Guesser {
             this.currentNode = this.currentNode.getRightChild();
                 break;
         }
+
+        return this.currentNode.isLeafNode();
     }
 
     public void guessedWrong(String playerAnimal, String question, YesOrNo answer) {
@@ -44,6 +46,7 @@ public class Guesser {
             parentNode.setRightChild(questionNode);
                 break;
         }
+        this.currentNode = this.tree.getRoot();
     }
 
     public String getCurrentValue() {

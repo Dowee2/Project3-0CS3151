@@ -151,5 +151,19 @@ public class BinaryNode<T> {
 	public boolean hasParent() {
 		return this.parent != null;
 	}
+
+	/**
+	 * Checks if this node is a leaf node
+	 * 
+	 * @pre none
+	 * @post none
+	 * 
+	 * @return true if this node has no children
+	 */
+	public boolean isLeafNode() {
+		return !this.hasLeftChild() && !this.hasRightChild();
+	}
 }
+
+
 
