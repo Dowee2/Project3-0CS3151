@@ -1,17 +1,28 @@
 package edu.westga.CS3151.AnimalGuessing.view;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 import edu.westga.CS3151.AnimalGuessing.model.Guesser;
 import edu.westga.CS3151.AnimalGuessing.model.Guesser.YesOrNo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 public class GuessPage {
+	
+	 @FXML
+	private MenuItem fileSaveMenuItem;
 
     @FXML
     private Pane startPane;
@@ -48,7 +59,7 @@ public class GuessPage {
 
     @FXML
     private RadioButton noRadioButton;
-
+    
     @FXML
     private Button playerGuessSubmitButton;
     
@@ -76,6 +87,7 @@ public class GuessPage {
     @FXML
     void OnYesButtonClick(ActionEvent event) {
     	if (this.isGuessing) {
+    		this.animalGuesser.guessCorrectly();
     		this.setActivePane(this.startPane);
     	} else {
     		this.isGuessing = this.animalGuesser.questionAnswered(YesOrNo.YES);
@@ -126,8 +138,33 @@ public class GuessPage {
     	pane.setDisable(false);
     	pane.setVisible(true);
     }
-
+    
     @FXML
+    void handleFileSave(ActionEvent event) {
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.setTitle("Save File");
+         fileChooser.getExtensionFilters().addAll(new ExtensionFilter("TXT files (*.txt)", "*.txt"), new ExtensionFilter("All Files", "*.*"));
+         System.out.println("OKAY");
+         Stage stage = new Stage();
+         File file = fileChooser.showSaveDialog(stage);
+
+         if (file != null) {
+             this.saveTextToFile(this.animalGuesser.Iterate(), file);
+         } 
+    }
+
+    private void saveTextToFile(String text, File file) {
+        try(PrintWriter writer = new PrintWriter(file)) {
+			writer.println(text);
+	        writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+        
+		
+	}
+
+	@FXML
 	private void initialize() {
 		this.animalGuesser = new Guesser();
 		this.setActivePane(startPane);

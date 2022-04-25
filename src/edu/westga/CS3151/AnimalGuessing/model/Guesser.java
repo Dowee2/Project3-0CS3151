@@ -47,6 +47,10 @@ public class Guesser {
 
         return this.currentNode.isLeafNode();
     }
+    
+    public void guessCorrectly() {
+    	this.currentNode = this.tree.getRoot();
+    }
 
     public void guessedWrong(String playerAnimal, String question, YesOrNo answer) {
         BinaryNode<String> questionNode = new BinaryNode<String>(question);
@@ -75,12 +79,6 @@ public class Guesser {
       	  questionNode.setRightChild(answerNode);
             break;
     	}
-        
-        Iterator<String> iterate = this.tree.iterator();
-        while(iterate.hasNext()) {
-        	System.out.print(iterate.next() +",");
-        }
-        System.out.println();
         this.currentNode = this.tree.getRoot();
     }
 
@@ -88,5 +86,19 @@ public class Guesser {
         return this.currentNode.getValue();
     }
 
+    public String Iterate() {
+    	String tree = "";
+    	
+    	 Iterator<BinaryNode<String>> iterate = this.tree.postOrderIterator();
+         while(iterate.hasNext()) {
+        	 BinaryNode<String> node = iterate.next();
+        	 if(node.isLeafNode()) {
+        		tree += "Answer: " + node.getValue() + System.lineSeparator();
+        	 } else {
+        		 tree += "Question: " + node.getValue() + System.lineSeparator();
+        	 }
+         }
+    	return tree;
+    }
     
 }

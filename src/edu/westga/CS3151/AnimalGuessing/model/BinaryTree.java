@@ -120,7 +120,7 @@ public class BinaryTree<E> implements Iterable<E> {
 	 * @post none
 	 * @return a post-order iterator
 	 */
-	public Iterator<E> postOrderIterator() {
+	public Iterator<BinaryNode<E>> postOrderIterator() {
 		return new PostOrderIterator();
 	}
 
@@ -228,8 +228,9 @@ public class BinaryTree<E> implements Iterable<E> {
 	 * 
 	 * An iterator that traverses this binary tree in post-order
 	 */
-	protected class PostOrderIterator implements Iterator<E> {
+	protected class PostOrderIterator implements Iterator<BinaryNode<E>> {
 		BinaryNode<E> next;
+		
 		public PostOrderIterator() {
 			this.next = BinaryTree.this.getRoot();
 			if (this.next != null) {
@@ -245,8 +246,8 @@ public class BinaryTree<E> implements Iterable<E> {
 		}
 
 		@Override
-		public E next() {
-			E returnValue = this.next.getValue();
+		public BinaryNode<E> next() {
+			BinaryNode<E> returnValue = this.next;
 			
 			if(!this.next.hasParent()) {
 				this.next = null;
