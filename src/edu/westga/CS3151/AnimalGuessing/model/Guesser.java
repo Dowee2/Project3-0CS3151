@@ -101,4 +101,8 @@ public class Guesser {
     	return tree;
     }
     
+    public void buildBinaryTree() {
+    	
+    }
+    
 }

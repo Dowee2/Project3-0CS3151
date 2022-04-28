@@ -1,7 +1,10 @@
 package edu.westga.CS3151.AnimalGuessing.view;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import edu.westga.CS3151.AnimalGuessing.model.Guesser;
@@ -59,6 +62,9 @@ public class GuessPage {
 
     @FXML
     private RadioButton noRadioButton;
+    
+    @FXML
+    private MenuItem fileLoadMenuItem;
     
     @FXML
     private Button playerGuessSubmitButton;
@@ -151,6 +157,29 @@ public class GuessPage {
          if (file != null) {
              this.saveTextToFile(this.animalGuesser.Iterate(), file);
          } 
+    }
+    
+    @FXML
+    void handleFileLoad(ActionEvent event) {
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.setTitle("Save File");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("TXT files (*.txt)", "*.txt"), new ExtensionFilter("All Files", "*.*"));
+        System.out.println("OKAY");
+        Stage stage = new Stage();
+        File file = fileChooser.showSaveDialog(stage);
+        
+        if (file != null) {
+        	this.loadBinaryTreeFromFile(file);
+        }
+    }
+    
+    private void loadBinaryTreeFromFile(File file) throws IOException {
+    	try {
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			String line = reader.readLine();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
     }
 
     private void saveTextToFile(String text, File file) {
