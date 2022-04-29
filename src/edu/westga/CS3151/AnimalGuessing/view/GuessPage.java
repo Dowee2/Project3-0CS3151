@@ -1,11 +1,8 @@
 package edu.westga.CS3151.AnimalGuessing.view;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import edu.westga.CS3151.AnimalGuessing.model.Guesser;
 import edu.westga.CS3151.AnimalGuessing.model.Guesser.YesOrNo;
@@ -23,174 +20,162 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class GuessPage {
-	
-	 @FXML
+
+	@FXML
 	private MenuItem fileSaveMenuItem;
 
-    @FXML
-    private Pane startPane;
+	@FXML
+	private Pane startPane;
 
-    @FXML
-    private Button startButton;
+	@FXML
+	private Button startButton;
 
-    @FXML
-    private Pane questionGuessPane;
+	@FXML
+	private Pane questionGuessPane;
 
-    @FXML
-    private Button yesButton;
+	@FXML
+	private Button yesButton;
 
-    @FXML
-    private Button noButton;
+	@FXML
+	private Button noButton;
 
-    @FXML
-    private Text guessTextArea;
+	@FXML
+	private Text guessTextArea;
 
-    @FXML
-    private Pane wrongGuessPane;
+	@FXML
+	private Pane wrongGuessPane;
 
-    @FXML
-    private TextField playerQuestionTextField;
+	@FXML
+	private TextField playerQuestionTextField;
 
-    @FXML
-    private TextField playerAnimalTextField;
+	@FXML
+	private TextField playerAnimalTextField;
 
-    @FXML
-    private RadioButton yesRadioButton;
+	@FXML
+	private RadioButton yesRadioButton;
 
-    @FXML
-    private ToggleGroup group1;
+	@FXML
+	private ToggleGroup group1;
 
-    @FXML
-    private RadioButton noRadioButton;
-    
-    @FXML
-    private MenuItem fileLoadMenuItem;
-    
-    @FXML
-    private Button playerGuessSubmitButton;
-    
-    private Guesser animalGuesser;
-    
-    private boolean isGuessing;
+	@FXML
+	private RadioButton noRadioButton;
 
-    @FXML
-    void OnNoButtonClick(ActionEvent event) {
-    	if (this.isGuessing) {
-    		this.setActivePane(this.wrongGuessPane);
-    	} else {
-    		this.isGuessing = this.animalGuesser.questionAnswered(YesOrNo.NO);
-    		this.setGuessTextArea();
-    	}
-    	
-    }
+	@FXML
+	private MenuItem fileLoadMenuItem;
 
-    @FXML
-    void OnStartButtonClick(ActionEvent event) {
-    	this.setActivePane(this.questionGuessPane);
-    	this.setGuessTextArea();
-    }
+	@FXML
+	private Button playerGuessSubmitButton;
 
-    @FXML
-    void OnYesButtonClick(ActionEvent event) {
-    	if (this.isGuessing) {
-    		this.animalGuesser.guessCorrectly();
-    		this.setActivePane(this.startPane);
-    	} else {
-    		this.isGuessing = this.animalGuesser.questionAnswered(YesOrNo.YES);
-    		this.setGuessTextArea();
-    	}
-    }
+	private Guesser animalGuesser;
 
-    @FXML
-    void onPlayerSubmit(ActionEvent event) {
-    	this.animalGuesser.guessedWrong(this.playerAnimalTextField.getText(), this.playerQuestionTextField.getText(), this.getSelectedRadioButton());
-    	this.playerAnimalTextField.setText("");
-    	this.playerQuestionTextField.setText("");
-    	this.setActivePane(startPane);
-    	this.isGuessing = false;
-    }
-    
-    private YesOrNo getSelectedRadioButton() {
-    	if(this.noRadioButton.isSelected()) {
-    		return YesOrNo.NO;
-    	}
-    	
-    	return YesOrNo.YES;
-    }
+	private boolean isGuessing;
 
-    private void setActivePane(Pane displayedPane) {
-    	
-    	if (displayedPane == this.startPane) {
-    		this.disablePane(this.questionGuessPane);
-    		this.disablePane(this.wrongGuessPane);
-    		this.enablePane(this.startPane);
-    	} else if (displayedPane == this.questionGuessPane) {
-    		this.disablePane(this.startPane);
-    		this.disablePane(this.wrongGuessPane);
-    		this.enablePane(this.questionGuessPane);
-    	} else {
-    		this.disablePane(this.questionGuessPane);
-    		this.disablePane(this.startPane);
-    		this.enablePane(this.wrongGuessPane);
-    	}
-    }
-    
-    private void disablePane(Pane pane) {
-    	pane.setDisable(true);
-    	pane.setVisible(false);
-    }
-    
-    private void enablePane(Pane pane) {
-    	pane.setDisable(false);
-    	pane.setVisible(true);
-    }
-    
-    @FXML
-    void handleFileSave(ActionEvent event) {
-    	FileChooser fileChooser = new FileChooser();
-    	fileChooser.setTitle("Save File");
-         fileChooser.getExtensionFilters().addAll(new ExtensionFilter("TXT files (*.txt)", "*.txt"), new ExtensionFilter("All Files", "*.*"));
-         System.out.println("OKAY");
-         Stage stage = new Stage();
-         File file = fileChooser.showSaveDialog(stage);
-
-         if (file != null) {
-             this.saveTextToFile(this.animalGuesser.Iterate(), file);
-         } 
-    }
-    
-    @FXML
-    void handleFileLoad(ActionEvent event) {
-    	FileChooser fileChooser = new FileChooser();
-    	fileChooser.setTitle("Save File");
-        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("TXT files (*.txt)", "*.txt"), new ExtensionFilter("All Files", "*.*"));
-        System.out.println("OKAY");
-        Stage stage = new Stage();
-        File file = fileChooser.showSaveDialog(stage);
-        
-        if (file != null) {
-        	this.loadBinaryTreeFromFile(file);
-        }
-    }
-    
-    private void loadBinaryTreeFromFile(File file) throws IOException {
-    	try {
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String line = reader.readLine();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+	@FXML
+	void OnNoButtonClick(ActionEvent event) {
+		if (this.isGuessing) {
+			this.setActivePane(this.wrongGuessPane);
+		} else {
+			this.isGuessing = this.animalGuesser.questionAnswered(YesOrNo.NO);
+			this.setGuessTextArea();
 		}
-    }
 
-    private void saveTextToFile(String text, File file) {
-        try(PrintWriter writer = new PrintWriter(file)) {
-			writer.println(text);
-	        writer.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+	}
+
+	@FXML
+	void OnStartButtonClick(ActionEvent event) {
+		this.setActivePane(this.questionGuessPane);
+		this.setGuessTextArea();
+	}
+
+	@FXML
+	void OnYesButtonClick(ActionEvent event) {
+		if (this.isGuessing) {
+			this.animalGuesser.guessCorrectly();
+			this.setActivePane(this.startPane);
+			this.isGuessing = false;
+		} else {
+			this.isGuessing = this.animalGuesser.questionAnswered(YesOrNo.YES);
+			this.setGuessTextArea();
 		}
-        
-		
+	}
+
+	@FXML
+	void onPlayerSubmit(ActionEvent event) {
+		this.animalGuesser.guessedWrong(this.playerAnimalTextField.getText(), this.playerQuestionTextField.getText(),
+				this.getSelectedRadioButton());
+		this.playerAnimalTextField.setText("");
+		this.playerQuestionTextField.setText("");
+		this.setActivePane(startPane);
+		this.isGuessing = false;
+	}
+
+	private YesOrNo getSelectedRadioButton() {
+		if (this.noRadioButton.isSelected()) {
+			return YesOrNo.NO;
+		}
+
+		return YesOrNo.YES;
+	}
+
+	private void setActivePane(Pane displayedPane) {
+
+		if (displayedPane == this.startPane) {
+			this.disablePane(this.questionGuessPane);
+			this.disablePane(this.wrongGuessPane);
+			this.enablePane(this.startPane);
+		} else if (displayedPane == this.questionGuessPane) {
+			this.disablePane(this.startPane);
+			this.disablePane(this.wrongGuessPane);
+			this.enablePane(this.questionGuessPane);
+		} else {
+			this.disablePane(this.questionGuessPane);
+			this.disablePane(this.startPane);
+			this.enablePane(this.wrongGuessPane);
+		}
+	}
+
+	private void disablePane(Pane pane) {
+		pane.setDisable(true);
+		pane.setVisible(false);
+	}
+
+	private void enablePane(Pane pane) {
+		pane.setDisable(false);
+		pane.setVisible(true);
+	}
+
+	@FXML
+	void handleFileSave(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save File");
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("TXT files (*.txt)", "*.txt"),
+				new ExtensionFilter("All Files", "*.*"));
+
+		Stage stage = new Stage();
+		File file = fileChooser.showSaveDialog(stage);
+
+		if (file != null) {
+			this.animalGuesser.saveTree(file);
+		}
+	}
+
+	@FXML
+	void handleFileLoad(ActionEvent event) throws IOException {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Load File");
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("TXT files (*.txt)", "*.txt"),
+				new ExtensionFilter("All Files", "*.*"));
+
+		Stage stage = new Stage();
+		File file = fileChooser.showOpenDialog(stage);
+
+		if (file != null) {
+			this.animalGuesser.buildBinaryTree(file);
+			this.setActivePane(startPane);
+			this.isGuessing = false;
+		} else {
+			System.out.println("No such File Found.");
+		}
 	}
 
 	@FXML
@@ -199,8 +184,8 @@ public class GuessPage {
 		this.setActivePane(startPane);
 		this.isGuessing = this.animalGuesser.guessMade;
 	}
-    
-    private void setGuessTextArea() {
-    	this.guessTextArea.setText(this.animalGuesser.getCurrentValue());
-    }
+
+	private void setGuessTextArea() {
+		this.guessTextArea.setText(this.animalGuesser.getCurrentValue());
+	}
 }

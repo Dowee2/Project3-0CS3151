@@ -7,11 +7,11 @@ package edu.westga.CS3151.AnimalGuessing.model;
  * @author CS3151
  * @version Spring 2022
  */
-public class BinaryNode<T> {
+public class DecisionNode<T> {
 	private T value;
-	private BinaryNode<T> leftChild;
-	private BinaryNode<T> rightChild;
-	private BinaryNode<T> parent;
+	private DecisionNode<T> leftChild;
+	private DecisionNode<T> rightChild;
+	private DecisionNode<T> parent;
 
 	/**
 	 * Instantiates a new binary node
@@ -20,7 +20,7 @@ public class BinaryNode<T> {
 	 * @post getValue() == null AND !hasLeftChild() AND !hasRightChild() AND
 	 *       !hasParent()
 	 */
-	public BinaryNode() {
+	public DecisionNode() {
 		this(null);
 	}
 
@@ -32,7 +32,7 @@ public class BinaryNode<T> {
 	 *       !hasParent()
 	 * @param value the value of the new node
 	 */
-	public BinaryNode(T value) {
+	public DecisionNode(T value) {
 		this.value = value;
 		this.leftChild = null;
 		this.rightChild = null;
@@ -47,7 +47,7 @@ public class BinaryNode<T> {
 	 * @post none
 	 * @return returns the left child of this node
 	 */
-	public BinaryNode<T> getLeftChild() {
+	public DecisionNode<T> getLeftChild() {
 		return this.leftChild;
 	}
 
@@ -58,7 +58,7 @@ public class BinaryNode<T> {
 	 * @post none
 	 * @return returns the right child of this node
 	 */
-	public BinaryNode<T> getRightChild() {
+	public DecisionNode<T> getRightChild() {
 		return this.rightChild;
 	}
 
@@ -69,7 +69,7 @@ public class BinaryNode<T> {
 	 * @post none
 	 * @return returns the parent of this node
 	 */
-	public BinaryNode<T> getParent() {
+	public DecisionNode<T> getParent() {
 		return this.parent;
 	}
 
@@ -91,7 +91,7 @@ public class BinaryNode<T> {
 	 * @post getLeftChild() == child
 	 * @param child the new left child of this node
 	 */
-	public void setLeftChild(BinaryNode<T> child) {
+	public void setLeftChild(DecisionNode<T> child) {
 		this.leftChild = child;
 		child.parent = this;
 	}
@@ -103,7 +103,7 @@ public class BinaryNode<T> {
 	 * @post getRightChild() == child
 	 * @param child the new right child of this node
 	 */
-	public void setRightChild(BinaryNode<T> child) {
+	public void setRightChild(DecisionNode<T> child) {
 		this.rightChild = child;
 		child.parent = this;
 	}

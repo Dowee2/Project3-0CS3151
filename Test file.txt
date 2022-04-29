@@ -1,8 +1,9 @@
-Answer: Clownfish
-Answer: Shark
-Question: Did it play a part in an aniated movie?
-Answer: Orca
-Answer: Dolphin
-Question: Is it Black and White?
-Question: Is it a Fish
-
+Answer: whale
+Answer: goldfish
+Question: Is it a mammal?
+Answer: eagle
+Answer: dog
+Question: Can it fly?
+Answer: horse
+Question: Is it a carnivore?
+Question: Does it live in water?
